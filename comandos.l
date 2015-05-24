@@ -20,8 +20,8 @@
 "dir"   { yylval.cval = strdup(yytext); return DIR; }
 "L"     { yylval.cval = strdup(yytext); return DIR_LISTA; }
 "h"     { yylval.cval = strdup(yytext); return DIR_OCULTOS; }
-"/a"     { yylval.cval = strdup(yytext); return DIR_INI_ATTR; }
-"/o"     { yylval.cval = strdup(yytext); return DIR_INI_ORD; }
+"/a"    { yylval.cval = strdup(yytext); return DIR_INI_ATTR; }
+"/o"    { yylval.cval = strdup(yytext); return DIR_INI_ORD; }
 [\n]    { yylval.cval = strdup(yytext); return FIM; }
 .       ;
 %%

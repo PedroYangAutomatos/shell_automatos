@@ -12,8 +12,18 @@
     extern "C" int yylex();
     extern "C" int yyparse();
     extern "C" char *yytext;
+
+    // A variavel VAL_SYS vai ser usada nos indices de tudo
+    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+        static const int VAL_SYS = 1; // Windows
+    #else
+        static const int VAL_SYS = 0; // Linux mestre-corrida
+    #endif
     
     void yyerror(const char *s);
+    void limpa_comando();
+    void redireciona_comando();
+    void ls_dir_comando();
     void lista_diretorio();
     void lista_diretorio_l();
     void guarda_comando(const char *s);
@@ -43,8 +53,8 @@
 %%
 
 input:
-    ls_fim { teste(); }
-    | dir_fim { teste(); }
+    ls_fim
+    | dir_fim
 
 ls_fim:
     ls
@@ -88,8 +98,48 @@ dir_ord_param:
 
 int main(int, char**) {
     do{
+        limpa_comando();
         yyparse();
+        redireciona_comando();
     } while(1);
+}
+
+// Função para limpar os comandos gravados da última entrada
+void limpa_comando(){
+    comando_final = "";
+    comando_input = "";
+    params_input = "";
+}
+
+// Função que redireciona para qual função do bash chamar: ls_dir, pwd, cd, etc...
+void redireciona_comando(){
+    // Preciso ter algo para ver os comandos válidos.
+    if (comando_input.compare("ls") == 0 ||
+       comando_input.compare("dir") == 0){
+            ls_dir_comando();
+    }
+}
+
+// Função para exibir os diretórios, independente do ls ou dir
+void ls_dir_comando(){
+
+    int sistema;
+    if (comando_input.compare("ls") == 0){
+        sistema = 0;
+    }
+    else{
+        if (comando_input.compare("dir") == 0){
+            sistema = 1;
+        }
+        else{
+            sistema = -1;
+        }
+    }
+
+    // Se o comando for igual ao
+    if (sistema == VAL_SYS){
+
+    }
 }
 
 void guarda_comando(const char *s){

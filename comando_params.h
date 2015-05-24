@@ -1,7 +1,7 @@
 #include <iostream>
 #include <list>
 #include <string>
-#include "celula.h"
+#include "parametros.h"
 
 using namespace std;
 
@@ -12,38 +12,63 @@ using namespace std;
     static const int VAL_SYS = 0; // Linux mestre-corrida
 #endif
 
+// Essa classe é só para armazenar um comando (e o equivalente na outra plataforma),
+// junto com seus parâmetros. Os indíces do array dos parâmetros é a equivalência.
+// Ou seja, o params_l[2] e o params_w[2] fazem a mesma coisa, só que em suas
+// respectivas plataformas
 class ComandoParams{
     private:
-        Celula comando; // ["ls", "dir"], ou de parametros ["l", "a", "s"]
-        Celula params_l;
-        Celula params_w;
+        // ["ls", "dir"]... sempre com o linux sendo no indice 0, e windows no indice 1
+        string comando[2];
+        Parametros params_l;
+        Parametros params_w;
     public:
+        int verifica(string)
         string comando_equival(string);
         string param_equival(string);
 };
 
+// Verifica se o comando recebido faz parte da instância
+int ComandoParams::verifica(string cmd_i){
+    if (cmd_i.compare(comando[0]) == 0){
+        return 0;
+    }
+    else{
+        if (cmd_i.compare(comando[1]) == 0){
+            return 1
+        }
+    }
+
+    return -1;
+}
+
+// Retorna o comando equivalente do sistema, ou o próprio comando se ele
+// for o correto
 string ComandoParams::comando_equival(string cmd_i){
-    if (comando.verifica(cmd_i)){
-        return comando.obter(VAL_SYS);
+    // Se existir o comando no string comando[], retorno o comando
+    // do sistema (mesmo se o input já for o certo, não tem problema)
+    if (ComandoParams::verifica(cmd_i) != -1){
+        return comando[VAL_SYS];
     }
     else{
         return "";
     }
 }
 
+// Retorna o parametro equivalente ao comando inserido.
 string ComandoParams::param_equival(string param_i){
     int indice;
-    indice = params_l.busca(param_i);
 
+    indice = params_l.busca(param_i);
     if (indice != -1){ // Eh do linux
         return params_l.obter(indice);
     }
-    else{ // 
+    else{ // Se não for do linux
         indice = params_w.busca(param_i);
-        if (indice != -1){
+        if (indice != -1){ // É do windows
             return params_w.obter(indice);
         }
-        else{
+        else{ // Não existe em nenhum dos dois
             return "";
         }
     }

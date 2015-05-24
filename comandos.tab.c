@@ -81,8 +81,18 @@
     extern "C" int yylex();
     extern "C" int yyparse();
     extern "C" char *yytext;
+
+    // A variavel VAL_SYS vai ser usada nos indices de tudo
+    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+        static const int VAL_SYS = 1; // Windows
+    #else
+        static const int VAL_SYS = 0; // Linux mestre-corrida
+    #endif
     
     void yyerror(const char *s);
+    void limpa_comando();
+    void redireciona_comando();
+    void ls_dir_comando();
     void lista_diretorio();
     void lista_diretorio_l();
     void guarda_comando(const char *s);
@@ -91,7 +101,7 @@
 
 
 /* Line 268 of yacc.c  */
-#line 95 "comandos.tab.c"
+#line 105 "comandos.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -140,7 +150,7 @@ typedef union YYSTYPE
 {
 
 /* Line 293 of yacc.c  */
-#line 24 "comandos.y"
+#line 34 "comandos.y"
 
     int ival;
     float fval;
@@ -149,7 +159,7 @@ typedef union YYSTYPE
 
 
 /* Line 293 of yacc.c  */
-#line 153 "comandos.tab.c"
+#line 163 "comandos.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -161,7 +171,7 @@ typedef union YYSTYPE
 
 
 /* Line 343 of yacc.c  */
-#line 165 "comandos.tab.c"
+#line 175 "comandos.tab.c"
 
 #ifdef short
 # undef short
@@ -457,10 +467,10 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    46,    46,    47,    50,    51,    53,    54,    56,    57,
-      59,    60,    61,    64,    65,    67,    68,    70,    71,    73,
-      73,    74,    74,    76,    77,    79,    80,    82,    83,    85,
-      86
+       0,    56,    56,    57,    60,    61,    63,    64,    66,    67,
+      69,    70,    71,    74,    75,    77,    78,    80,    81,    83,
+      83,    84,    84,    86,    87,    89,    90,    92,    93,    95,
+      96
 };
 #endif
 
@@ -1406,115 +1416,101 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 2:
+        case 6:
 
 /* Line 1806 of yacc.c  */
-#line 46 "comandos.y"
-    { teste(); }
-    break;
-
-  case 3:
-
-/* Line 1806 of yacc.c  */
-#line 47 "comandos.y"
-    { teste(); }
-    break;
-
-  case 6:
-
-/* Line 1806 of yacc.c  */
-#line 53 "comandos.y"
+#line 63 "comandos.y"
     { guarda_comando((yyvsp[(1) - (3)].cval)); }
     break;
 
   case 7:
 
 /* Line 1806 of yacc.c  */
-#line 54 "comandos.y"
+#line 64 "comandos.y"
     { guarda_comando((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 10:
 
 /* Line 1806 of yacc.c  */
-#line 59 "comandos.y"
+#line 69 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 11:
 
 /* Line 1806 of yacc.c  */
-#line 60 "comandos.y"
+#line 70 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 12:
 
 /* Line 1806 of yacc.c  */
-#line 61 "comandos.y"
+#line 71 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 15:
 
 /* Line 1806 of yacc.c  */
-#line 67 "comandos.y"
+#line 77 "comandos.y"
     { guarda_comando((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 16:
 
 /* Line 1806 of yacc.c  */
-#line 68 "comandos.y"
+#line 78 "comandos.y"
     { guarda_comando((yyvsp[(1) - (2)].cval)); }
     break;
 
   case 19:
 
 /* Line 1806 of yacc.c  */
-#line 73 "comandos.y"
+#line 83 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); guarda_parametro(" ");}
     break;
 
   case 21:
 
 /* Line 1806 of yacc.c  */
-#line 74 "comandos.y"
+#line 84 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); guarda_parametro(" ");}
     break;
 
   case 25:
 
 /* Line 1806 of yacc.c  */
-#line 79 "comandos.y"
+#line 89 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 26:
 
 /* Line 1806 of yacc.c  */
-#line 80 "comandos.y"
+#line 90 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 29:
 
 /* Line 1806 of yacc.c  */
-#line 85 "comandos.y"
+#line 95 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 30:
 
 /* Line 1806 of yacc.c  */
-#line 86 "comandos.y"
+#line 96 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
 
 
 /* Line 1806 of yacc.c  */
-#line 1518 "comandos.tab.c"
+#line 1514 "comandos.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1745,13 +1741,53 @@ yyreturn:
 
 
 /* Line 2067 of yacc.c  */
-#line 87 "comandos.y"
+#line 97 "comandos.y"
 
 
 int main(int, char**) {
     do{
+        limpa_comando();
         yyparse();
+        // redireciona_comando();
+        system("ls");
     } while(1);
+}
+
+// Função para limpar os comandos gravados da última entrada
+void limpa_comando(){
+    comando_final = "";
+    comando_input = "";
+    params_input = "";
+}
+
+// Função que redireciona para qual função do bash chamar: ls_dir, pwd, cd, etc...
+void redireciona_comando(){
+    // Preciso ter algo para ver os comandos válidos.
+    if (comando_input.compare("ls") == 0 ||
+       comando_input.compare("dir") == 0){
+            ls_dir_comando();
+    }
+}
+
+// Função para exibir os diretórios, independente do ls ou dir
+void ls_dir_comando(){
+    int sistema;
+    if (comando_input.compare("ls") == 0){
+        sistema = 0;
+    }
+    else{
+        if (comando_input.compare("dir") == 0){
+            sistema = 1;
+        }
+        else{
+            sistema = -1;
+        }
+    }
+
+    // Se o comando for igual ao
+    if (sistema == VAL_SYS){
+
+    }
 }
 
 void guarda_comando(const char *s){
