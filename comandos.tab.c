@@ -70,19 +70,29 @@
 
     #include <cstdio>
     #include <iostream>
+    #include <string>
     using namespace std;
+
+    const char *comando_completo = "a";
+    std::string comando_final = "";
+    std::string comando_input = "";
+    std::string params_input = "";
     
     // Declaraao de escopo
     extern "C" int yylex();
     extern "C" int yyparse();
+    extern "C" char *yytext;
     
     void yyerror(const char *s);
     void lista_diretorio();
     void lista_diretorio_l();
+    void guarda_comando(const char *s);
+    void guarda_parametro(const char *s);
+    void pteste(const char *s);
 
 
 /* Line 268 of yacc.c  */
-#line 86 "comandos.tab.c"
+#line 96 "comandos.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -109,17 +119,38 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     LISTA_DIR = 258,
-     FIM = 259,
-     LISTA_DIR_LISTA = 260,
-     INICIO_PARAMS = 261
+     INICIO_PARAMS_LINUX = 258,
+     INICIO_PARAMS_WINDOWS = 259,
+     LS = 260,
+     LS_LISTA = 261,
+     LS_OCULTOS = 262,
+     LS_TAMANHO = 263,
+     DIR = 264,
+     DIR_OCULTOS = 265,
+     DIR_LISTA = 266,
+     DIR_TAMANHO = 267,
+     FIM = 268
    };
 #endif
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+typedef union YYSTYPE
+{
+
+/* Line 293 of yacc.c  */
+#line 25 "comandos.y"
+
+    int ival;
+    float fval;
+    char *ccval;
+
+
+
+/* Line 293 of yacc.c  */
+#line 153 "comandos.tab.c"
+} YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -130,7 +161,7 @@ typedef int YYSTYPE;
 
 
 /* Line 343 of yacc.c  */
-#line 134 "comandos.tab.c"
+#line 165 "comandos.tab.c"
 
 #ifdef short
 # undef short
@@ -347,22 +378,22 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  6
+#define YYFINAL  5
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   5
+#define YYLAST   7
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  7
+#define YYNTOKENS  14
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  3
+#define YYNNTS  5
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  4
+#define YYNRULES  10
 /* YYNRULES -- Number of states.  */
-#define YYNSTATES  9
+#define YYNSTATES  13
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   261
+#define YYMAXUTOK   268
 
 #define YYTRANSLATE(YYX)						\
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -396,7 +427,7 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6
+       5,     6,     7,     8,     9,    10,    11,    12,    13
 };
 
 #if YYDEBUG
@@ -404,20 +435,23 @@ static const yytype_uint8 yytranslate[] =
    YYRHS.  */
 static const yytype_uint8 yyprhs[] =
 {
-       0,     0,     3,     7,    10
+       0,     0,     3,     5,     8,    12,    14,    16,    19,    21,
+      23
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
-       8,     0,    -1,     3,     9,     4,    -1,     3,     4,    -1,
-       6,     5,    -1
+      15,     0,    -1,    16,    -1,    16,    13,    -1,     5,     3,
+      17,    -1,     5,    -1,    18,    -1,    17,    18,    -1,     6,
+      -1,     7,    -1,     8,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    24,    24,    25,    28
+       0,    46,    46,    47,    50,    51,    54,    55,    58,    59,
+      60
 };
 #endif
 
@@ -426,8 +460,10 @@ static const yytype_uint8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "LISTA_DIR", "FIM", "LISTA_DIR_LISTA",
-  "INICIO_PARAMS", "$accept", "comando", "parametros", 0
+  "$end", "error", "$undefined", "INICIO_PARAMS_LINUX",
+  "INICIO_PARAMS_WINDOWS", "LS", "LS_LISTA", "LS_OCULTOS", "LS_TAMANHO",
+  "DIR", "DIR_OCULTOS", "DIR_LISTA", "DIR_TAMANHO", "FIM", "$accept",
+  "ls_fim", "ls", "ls_params", "ls_param", 0
 };
 #endif
 
@@ -436,20 +472,23 @@ static const char *const yytname[] =
    token YYLEX-NUM.  */
 static const yytype_uint16 yytoknum[] =
 {
-       0,   256,   257,   258,   259,   260,   261
+       0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
+     265,   266,   267,   268
 };
 # endif
 
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,     7,     8,     8,     9
+       0,    14,    15,    15,    16,    16,    17,    17,    18,    18,
+      18
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     3,     2,     2
+       0,     2,     1,     2,     3,     1,     1,     2,     1,     1,
+       1
 };
 
 /* YYDEFACT[STATE-NAME] -- Default reduction number in state STATE-NUM.
@@ -457,27 +496,29 @@ static const yytype_uint8 yyr2[] =
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,     0,     0,     3,     0,     0,     1,     4,     2
+       0,     5,     0,     2,     0,     1,     3,     8,     9,    10,
+       4,     6,     7
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2,     5
+      -1,     2,     3,    10,    11
 };
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -5
+#define YYPACT_NINF -8
 static const yytype_int8 yypact[] =
 {
-      -2,    -4,     3,    -5,    -1,     1,    -5,    -5,    -5
+      -2,     1,     5,    -7,    -6,    -8,    -8,    -8,    -8,    -8,
+      -6,    -8,    -8
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -5,    -5,    -5
+      -8,    -8,    -8,    -8,    -3
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -486,25 +527,26 @@ static const yytype_int8 yypgoto[] =
 #define YYTABLE_NINF -1
 static const yytype_uint8 yytable[] =
 {
-       3,     1,     4,     6,     7,     8
+       7,     8,     9,     1,     4,     5,     6,    12
 };
 
 #define yypact_value_is_default(yystate) \
-  ((yystate) == (-5))
+  ((yystate) == (-8))
 
 #define yytable_value_is_error(yytable_value) \
   YYID (0)
 
 static const yytype_uint8 yycheck[] =
 {
-       4,     3,     6,     0,     5,     4
+       6,     7,     8,     5,     3,     0,    13,    10
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     3,     8,     4,     6,     9,     0,     5,     4
+       0,     5,    15,    16,     3,     0,    13,     6,     7,     8,
+      17,    18,    18
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1338,24 +1380,45 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 2:
+        case 4:
 
 /* Line 1806 of yacc.c  */
-#line 24 "comandos.y"
-    { lista_diretorio_l(); }
+#line 50 "comandos.y"
+    { guarda_comando((yyvsp[(1) - (3)].ccval)); }
     break;
 
-  case 3:
+  case 5:
 
 /* Line 1806 of yacc.c  */
-#line 25 "comandos.y"
-    { lista_diretorio(); }
+#line 51 "comandos.y"
+    { guarda_comando((yyvsp[(1) - (1)].ccval)); }
+    break;
+
+  case 8:
+
+/* Line 1806 of yacc.c  */
+#line 58 "comandos.y"
+    { guarda_parametro((yyvsp[(1) - (1)].ccval)); }
+    break;
+
+  case 9:
+
+/* Line 1806 of yacc.c  */
+#line 59 "comandos.y"
+    { guarda_parametro((yyvsp[(1) - (1)].ccval)); }
+    break;
+
+  case 10:
+
+/* Line 1806 of yacc.c  */
+#line 60 "comandos.y"
+    { guarda_parametro((yyvsp[(1) - (1)].ccval)); }
     break;
 
 
 
 /* Line 1806 of yacc.c  */
-#line 1359 "comandos.tab.c"
+#line 1422 "comandos.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1586,22 +1649,23 @@ yyreturn:
 
 
 /* Line 2067 of yacc.c  */
-#line 30 "comandos.y"
+#line 62 "comandos.y"
 
 
 int main(int, char**) {
     do{
         yyparse();
     } while(1);
-    
 }
 
-void lista_diretorio(){
-    system("ls");
+void guarda_comando(const char *s){
+    comando_input.append(s);
+    cout << "ci: " << comando_input << endl;
 }
 
-void lista_diretorio_l(){
-    system("ls -l");
+void guarda_parametro(const char *s){
+    params_input.append(s);
+    cout << "pi: " << params_input << endl;
 }
 
 void yyerror(const char *s) {

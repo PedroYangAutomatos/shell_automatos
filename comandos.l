@@ -1,6 +1,7 @@
 %{
     #include <cstdio>
     #include <iostream>
+    #include <string>
     using namespace std;
     #define YY_DECL extern "C" int yylex()
     
@@ -9,11 +10,16 @@
 
 %%
 [\t]    ;
-"ls"    return LS_DIR;
-"dir"   return LS_DIR;
-"-"     return INICIO_PARAMS;
-"l"     return LS_DIR_LISTA;
-"a"     return LS_DIR_LISTA;
-[\n]    return FIM;
+"-"     { yylval.ccval = strdup(yytext); return INICIO_PARAMS_LINUX; }
+"/"     { yylval.ccval = strdup(yytext); return INICIO_PARAMS_WINDOWS; }
+"ls"    { yylval.ccval = strdup(yytext); return LS; }
+"l"     { yylval.ccval = strdup(yytext); return LS_LISTA; }
+"a"     { yylval.ccval = strdup(yytext); return LS_OCULTOS; }
+"s"     { yylval.ccval = strdup(yytext); return LS_TAMANHO; }
+"dir"   { yylval.ccval = strdup(yytext); return DIR; }
+"h"     { yylval.ccval = strdup(yytext); return DIR_OCULTOS; }
+"L"     { yylval.ccval = strdup(yytext); return DIR_LISTA; }
+"S"     { yylval.ccval = strdup(yytext); return DIR_TAMANHO; }
+[\n]    { yylval.ccval = strdup(yytext); return FIM; }
 .       ;
 %%
