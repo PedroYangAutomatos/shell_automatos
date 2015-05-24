@@ -42,12 +42,13 @@
      LS = 260,
      LS_LISTA = 261,
      LS_OCULTOS = 262,
-     LS_TAMANHO = 263,
+     LS_DIR_TAMANHO = 263,
      DIR = 264,
      DIR_OCULTOS = 265,
      DIR_LISTA = 266,
-     DIR_TAMANHO = 267,
-     FIM = 268
+     DIR_INI_ATTR = 267,
+     DIR_INI_ORD = 268,
+     FIM = 269
    };
 #endif
 
@@ -58,16 +59,16 @@ typedef union YYSTYPE
 {
 
 /* Line 2068 of yacc.c  */
-#line 25 "comandos.y"
+#line 24 "comandos.y"
 
     int ival;
     float fval;
-    char *ccval;
+    char *cval;
 
 
 
 /* Line 2068 of yacc.c  */
-#line 71 "comandos.tab.h"
+#line 72 "comandos.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

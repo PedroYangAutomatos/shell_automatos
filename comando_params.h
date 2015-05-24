@@ -15,16 +15,36 @@ using namespace std;
 class ComandoParams{
     private:
         Celula comando; // ["ls", "dir"], ou de parametros ["l", "a", "s"]
-        Celula params; // 1 para comandos, 2 para params
+        Celula params_l;
+        Celula params_w;
     public:
-        string comando_correto(string);
+        string comando_equival(string);
+        string param_equival(string);
 };
 
-string ComandoParams::comando_correto(string cmd_i){
+string ComandoParams::comando_equival(string cmd_i){
     if (comando.verifica(cmd_i)){
         return comando.obter(VAL_SYS);
     }
     else{
         return "";
+    }
+}
+
+string ComandoParams::param_equival(string param_i){
+    int indice;
+    indice = params_l.busca(param_i);
+
+    if (indice != -1){ // Eh do linux
+        return params_l.obter(indice);
+    }
+    else{ // 
+        indice = params_w.busca(param_i);
+        if (indice != -1){
+            return params_w.obter(indice);
+        }
+        else{
+            return "";
+        }
     }
 }
