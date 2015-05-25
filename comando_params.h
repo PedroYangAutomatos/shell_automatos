@@ -1,6 +1,6 @@
-#include <iostream>
-#include <list>
-#include <string>
+// #include <iostream>
+// #include <list>
+// #include <string>
 #include "parametros.h"
 
 using namespace std;
@@ -79,7 +79,6 @@ std::string ComandoParams::param_equival(std::string param_i){
 void ComandoParams::adicionar(std::string cl, std::string cw, std::vector<std::string> pl, std::vector<std::string> pw){
     comando[0] = cl;
     comando[1] = cw;
-
     params_l.copiar_vetor(pl);
     params_w.copiar_vetor(pw);
 }

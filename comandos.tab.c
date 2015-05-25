@@ -68,11 +68,17 @@
 /* Line 268 of yacc.c  */
 #line 1 "comandos.y"
 
-    #include <cstdio>
     #include <iostream>
+    #include <cstdlib>
     #include <string>
+    #include <vector>
+    #include <cstdio>
     #include "lista_comandos.h"
     using namespace std;
+
+    ListaComandos cmds_aceitos;
+    std::string testes[] = {"aa", "bb", "cc"};
+    int numeros[] = {1, 2, 3, 4};
 
     std::string comando_final = "";
     std::string comando_input = "";
@@ -102,7 +108,7 @@
 
 
 /* Line 268 of yacc.c  */
-#line 106 "comandos.tab.c"
+#line 112 "comandos.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -151,7 +157,7 @@ typedef union YYSTYPE
 {
 
 /* Line 293 of yacc.c  */
-#line 35 "comandos.y"
+#line 41 "comandos.y"
 
     int ival;
     float fval;
@@ -160,7 +166,7 @@ typedef union YYSTYPE
 
 
 /* Line 293 of yacc.c  */
-#line 164 "comandos.tab.c"
+#line 170 "comandos.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -172,7 +178,7 @@ typedef union YYSTYPE
 
 
 /* Line 343 of yacc.c  */
-#line 176 "comandos.tab.c"
+#line 182 "comandos.tab.c"
 
 #ifdef short
 # undef short
@@ -468,10 +474,10 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    57,    57,    58,    61,    62,    64,    65,    67,    68,
-      70,    71,    72,    75,    76,    78,    79,    81,    82,    84,
-      84,    85,    85,    87,    88,    90,    91,    93,    94,    96,
-      97
+       0,    63,    63,    64,    67,    68,    70,    71,    73,    74,
+      76,    77,    78,    81,    82,    84,    85,    87,    88,    90,
+      90,    91,    91,    93,    94,    96,    97,    99,   100,   102,
+     103
 };
 #endif
 
@@ -1420,98 +1426,98 @@ yyreduce:
         case 6:
 
 /* Line 1806 of yacc.c  */
-#line 64 "comandos.y"
+#line 70 "comandos.y"
     { guarda_comando((yyvsp[(1) - (3)].cval)); }
     break;
 
   case 7:
 
 /* Line 1806 of yacc.c  */
-#line 65 "comandos.y"
+#line 71 "comandos.y"
     { guarda_comando((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 10:
 
 /* Line 1806 of yacc.c  */
-#line 70 "comandos.y"
+#line 76 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 11:
 
 /* Line 1806 of yacc.c  */
-#line 71 "comandos.y"
+#line 77 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 12:
 
 /* Line 1806 of yacc.c  */
-#line 72 "comandos.y"
+#line 78 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 15:
 
 /* Line 1806 of yacc.c  */
-#line 78 "comandos.y"
+#line 84 "comandos.y"
     { guarda_comando((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 16:
 
 /* Line 1806 of yacc.c  */
-#line 79 "comandos.y"
+#line 85 "comandos.y"
     { guarda_comando((yyvsp[(1) - (2)].cval)); }
     break;
 
   case 19:
 
 /* Line 1806 of yacc.c  */
-#line 84 "comandos.y"
+#line 90 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); guarda_parametro(" ");}
     break;
 
   case 21:
 
 /* Line 1806 of yacc.c  */
-#line 85 "comandos.y"
+#line 91 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); guarda_parametro(" ");}
     break;
 
   case 25:
 
 /* Line 1806 of yacc.c  */
-#line 90 "comandos.y"
+#line 96 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 26:
 
 /* Line 1806 of yacc.c  */
-#line 91 "comandos.y"
+#line 97 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 29:
 
 /* Line 1806 of yacc.c  */
-#line 96 "comandos.y"
+#line 102 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 30:
 
 /* Line 1806 of yacc.c  */
-#line 97 "comandos.y"
+#line 103 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
 
 
 /* Line 1806 of yacc.c  */
-#line 1515 "comandos.tab.c"
+#line 1521 "comandos.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1742,15 +1748,29 @@ yyreturn:
 
 
 /* Line 2067 of yacc.c  */
-#line 98 "comandos.y"
+#line 104 "comandos.y"
 
 
 int main(int, char**) {
-    do{
-        limpa_comando();
-        yyparse();
-        redireciona_comando();
-    } while(1);
+    std::vector<std::string> vtmp_l(3);
+    std::vector<std::string> vtmp_w(5);
+    vtmp_l[0] = "l";
+    vtmp_l[1] = "a";
+    vtmp_l[2] = "s";
+    vtmp_w[0] = "L";
+    vtmp_w[1] = "h";
+    vtmp_w[2] = "s";
+    vtmp_w[3] = "/a";
+    vtmp_w[4] = "/o";
+    cmds_aceitos.adicionar_comando("ls", "dir", vtmp_l, vtmp_w);
+    int valor;
+    valor = cmds_aceitos.procura_comando("ls");
+    cout << "valor = " << valor << endl;
+    // do{
+    //     limpa_comando();
+    //     yyparse();
+    //     redireciona_comando();
+    // } while(1);
 }
 
 // Função para limpar os comandos gravados da última entrada

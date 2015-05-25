@@ -1,24 +1,15 @@
 %{
-    #include <cstdio>
     #include <iostream>
+    #include <cstdlib>
     #include <string>
     #include <vector>
+    #include <cstdio>
     #include "lista_comandos.h"
     using namespace std;
 
     ListaComandos cmds_aceitos;
-    std::vector<std::string> vtmp_l(3);
-    vtmp_l[0] = "l"
-    vtmp_l[1] = "a"
-    vtmp_l[2] = "s"
-    std::vector<std::string> vtmp_w(5);
-    vtmp_w[0] = "L"
-    vtmp_w[1] = "h"
-    vtmp_w[2] = "s"
-    vtmp_w[3] = "/a"
-    vtmp_w[3] = "/o"
-
-    cmds_aceitos.adicionar_comando("ls", "dir", )
+    std::string testes[] = {"aa", "bb", "cc"};
+    int numeros[] = {1, 2, 3, 4};
 
     std::string comando_final = "";
     std::string comando_input = "";
@@ -113,11 +104,25 @@ dir_ord_param:
 %%
 
 int main(int, char**) {
-    do{
-        limpa_comando();
-        yyparse();
-        redireciona_comando();
-    } while(1);
+    std::vector<std::string> vtmp_l(3);
+    std::vector<std::string> vtmp_w(5);
+    vtmp_l[0] = "l";
+    vtmp_l[1] = "a";
+    vtmp_l[2] = "s";
+    vtmp_w[0] = "L";
+    vtmp_w[1] = "h";
+    vtmp_w[2] = "s";
+    vtmp_w[3] = "/a";
+    vtmp_w[4] = "/o";
+    cmds_aceitos.adicionar_comando("ls", "dir", vtmp_l, vtmp_w);
+    int valor;
+    valor = cmds_aceitos.procura_comando("ls");
+    cout << "valor = " << valor << endl;
+    // do{
+    //     limpa_comando();
+    //     yyparse();
+    //     redireciona_comando();
+    // } while(1);
 }
 
 // Função para limpar os comandos gravados da última entrada

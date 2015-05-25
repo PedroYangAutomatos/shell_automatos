@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <string>
 #include <vector>
+#include <cstdio>
 
 using namespace std;
 
