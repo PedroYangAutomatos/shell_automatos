@@ -15,6 +15,7 @@ class Parametros{
         std::string obter(int);
         void aumentar_tamanho();
         void adicionar_elemento(std::string);
+        void copiar_vetor(std::vector<std::string>);
 };
 
 int Parametros::busca(std::string str){
@@ -57,4 +58,8 @@ void Parametros::aumentar_tamanho(){
 void Parametros::adicionar_elemento(std::string elem){
    Parametros::aumentar_tamanho();
    vetor[vetor.size() + 1] = elem;
+}
+
+void Parametros::copiar_vetor(std::vector<std::string> vc){
+    vetor = vc;
 }

@@ -19,23 +19,24 @@ using namespace std;
 class ComandoParams{
     private:
         // ["ls", "dir"]... sempre com o linux sendo no indice 0, e windows no indice 1
-        string comando[2];
+        std::string comando[2];
         Parametros params_l;
         Parametros params_w;
     public:
-        int verifica(string)
-        string comando_equival(string);
-        string param_equival(string);
+        int verifica(std::string);
+        std::string comando_equival(std::string);
+        std::string param_equival(std::string);
+        void adicionar(std::string, std::string, std::vector<std::string>, std::vector<std::string>);
 };
 
-// Verifica se o comando recebido faz parte da instância
-int ComandoParams::verifica(string cmd_i){
+// Verifica se o comando recebido faz parte da instância, e retorna o índice dele
+int ComandoParams::verifica(std::string cmd_i){
     if (cmd_i.compare(comando[0]) == 0){
         return 0;
     }
     else{
         if (cmd_i.compare(comando[1]) == 0){
-            return 1
+            return 1;
         }
     }
 
@@ -44,8 +45,8 @@ int ComandoParams::verifica(string cmd_i){
 
 // Retorna o comando equivalente do sistema, ou o próprio comando se ele
 // for o correto
-string ComandoParams::comando_equival(string cmd_i){
-    // Se existir o comando no string comando[], retorno o comando
+std::string ComandoParams::comando_equival(std::string cmd_i){
+    // Se existir o comando no std::string comando[], retorno o comando
     // do sistema (mesmo se o input já for o certo, não tem problema)
     if (ComandoParams::verifica(cmd_i) != -1){
         return comando[VAL_SYS];
@@ -56,7 +57,8 @@ string ComandoParams::comando_equival(string cmd_i){
 }
 
 // Retorna o parametro equivalente ao comando inserido.
-string ComandoParams::param_equival(string param_i){
+std::string ComandoParams::param_equival(std::string param_i){
+    // ACHO QUE FALTA COLOCAR ALGO RELACIONADO AO VAL_SYS AQUI. SEI LÁ
     int indice;
 
     indice = params_l.busca(param_i);
@@ -72,4 +74,12 @@ string ComandoParams::param_equival(string param_i){
             return "";
         }
     }
+}
+
+void ComandoParams::adicionar(std::string cl, std::string cw, std::vector<std::string> pl, std::vector<std::string> pw){
+    comando[0] = cl;
+    comando[1] = cw;
+
+    params_l.copiar_vetor(pl);
+    params_w.copiar_vetor(pw);
 }

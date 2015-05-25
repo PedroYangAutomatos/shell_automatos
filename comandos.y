@@ -2,7 +2,23 @@
     #include <cstdio>
     #include <iostream>
     #include <string>
+    #include <vector>
+    #include "lista_comandos.h"
     using namespace std;
+
+    ListaComandos cmds_aceitos;
+    std::vector<std::string> vtmp_l(3);
+    vtmp_l[0] = "l"
+    vtmp_l[1] = "a"
+    vtmp_l[2] = "s"
+    std::vector<std::string> vtmp_w(5);
+    vtmp_w[0] = "L"
+    vtmp_w[1] = "h"
+    vtmp_w[2] = "s"
+    vtmp_w[3] = "/a"
+    vtmp_w[3] = "/o"
+
+    cmds_aceitos.adicionar_comando("ls", "dir", )
 
     std::string comando_final = "";
     std::string comando_input = "";
@@ -13,11 +29,11 @@
     extern "C" int yyparse();
     extern "C" char *yytext;
 
-    // A variavel VAL_SYS vai ser usada nos indices de tudo
+    // A variavel VAL_SYS_C vai ser usada nos indices de tudo
     #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-        static const int VAL_SYS = 1; // Windows
+        static const int VAL_SYS_C = 1; // Windows
     #else
-        static const int VAL_SYS = 0; // Linux mestre-corrida
+        static const int VAL_SYS_C = 0; // Linux mestre-corrida
     #endif
     
     void yyerror(const char *s);
