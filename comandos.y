@@ -8,8 +8,6 @@
     using namespace std;
 
     ListaComandos cmds_aceitos;
-    std::string testes[] = {"aa", "bb", "cc"};
-    int numeros[] = {1, 2, 3, 4};
 
     std::string comando_final = "";
     std::string comando_input = "";
@@ -115,9 +113,8 @@ int main(int, char**) {
     vtmp_w[3] = "/a";
     vtmp_w[4] = "/o";
     cmds_aceitos.adicionar_comando("ls", "dir", vtmp_l, vtmp_w);
-    int valor;
-    valor = cmds_aceitos.procura_comando("ls");
-    cout << "valor = " << valor << endl;
+    std::string comando_equival = cmds_aceitos.comando_equival_str("aa");
+    cout << "comando equival= " << comando_equival << endl;
     // do{
     //     limpa_comando();
     //     yyparse();

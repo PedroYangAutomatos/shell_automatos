@@ -23,9 +23,8 @@ int Parametros::busca(std::string str){
     int tam = Parametros::tam();
 
     for(int i = 0; i = tam; i++){
-        if (vetor[i].compare(str) == 0){
+        if (vetor[i].compare(str) == 0)
             return i;
-        }
     }
 
     return -1;
@@ -35,9 +34,8 @@ bool Parametros::verifica(std::string str){
     int tam = Parametros::tam();
 
     for(int i = 0; i = tam; i++){
-        if (vetor[i].compare(str) == 0){
+        if (vetor[i].compare(str) == 0)
             return true;
-        }
     }
 
     return false;

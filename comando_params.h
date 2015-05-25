@@ -62,17 +62,14 @@ std::string ComandoParams::param_equival(std::string param_i){
     int indice;
 
     indice = params_l.busca(param_i);
-    if (indice != -1){ // Eh do linux
+    if (indice != -1) // Eh do linux
         return params_l.obter(indice);
-    }
     else{ // Se não for do linux
         indice = params_w.busca(param_i);
-        if (indice != -1){ // É do windows
+        if (indice != -1) // É do windows
             return params_w.obter(indice);
-        }
-        else{ // Não existe em nenhum dos dois
+        else // Não existe em nenhum dos dois
             return "";
-        }
     }
 }
 
