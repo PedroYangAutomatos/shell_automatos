@@ -42,7 +42,7 @@ int ComandoParams::verifica(std::string cmd_i){
 
     return -1;
 }
-//teste
+
 // Retorna o comando equivalente do sistema, ou o próprio comando se ele
 // for o correto
 std::string ComandoParams::comando_equival(std::string cmd_i){
