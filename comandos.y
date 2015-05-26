@@ -68,7 +68,7 @@ ls_fim:
     ls
     | ls FIM
 ls:
-    LS INICIO_PARAMS_LINUX ls_params { guarda_comando($1); }
+    LS { guarda_comando($1); } INICIO_PARAMS_LINUX ls_params
     | LS { guarda_comando($1); }
 ls_params:
     ls_param
@@ -85,10 +85,10 @@ dir_fim:
     | dir FIM
 dir:
     DIR { guarda_comando($1); }
-    | DIR dir_multi_params { guarda_comando($1); }
-    | DIR dir_multi_unico  { guarda_comando($1); }
-    | DIR dir_multi_unico dir_multi_params  { guarda_comando($1); }
-    | DIR dir_multi_params dir_multi_unico  { guarda_comando($1); }
+    | DIR { guarda_comando($1); } dir_multi_params 
+    | DIR { guarda_comando($1); } dir_multi_unico
+    | DIR { guarda_comando($1); } dir_multi_unico dir_multi_params
+    | DIR { guarda_comando($1); } dir_multi_params dir_multi_unico
 dir_multi_unico:
     dir_unico_param
     | dir_multi_unico dir_unico_param
@@ -125,8 +125,6 @@ int main(int, char**) {
     vtmp_w[3] = "/a";
     vtmp_w[4] = "/o";
     cmds_aceitos.adicionar_comando("ls", "dir", vtmp_l, vtmp_w);
-    // std::string comando_equival = cmds_aceitos.comando_equival_str("aa");
-    // cout << "comando equival= " << comando_equival << endl;
     do{
         limpa_comando();
         yyparse();
@@ -181,48 +179,45 @@ void guarda_comando(const char *s){
 }
 
 void guarda_parametro(const char *s){
-    // params_input.append(s);
-    // cout << "pi: " << params_input << endl;
-    std::string params_temp = cmds_aceitos.param_equival_str(s, comando_input);
-    // cout << "PARTMP = " << params_temp << endl;
-    // params_temp.append(cmds_aceitos.param_equival(s, comando_input));
+    cout << "teste ci: " << comando_input << endl;
+    std::string params_temp = s;
      
     // É DIFERENTE DO SISTEMA, TEM QUE TRATAR
     // if (cmds_aceitos.comando_equival_str(comando_input).compare(comando_input) != 0){
         // LS E DIR
         // if (params_temp == cmds_aceitos.comando_equival_str("ls")){
             // LS
-            // if (comando_input.compare("ls") == 0){
-                if (s == "s"){
-                    cout << "ENTREI s" << endl;
+            if (comando_input.compare("ls") == 0){
+                if (params_temp.compare("s") == 0){
+                    // cout << "ENTREI s" << endl;
                     params_final.append(" /o s");
                 }
-                if (s == "a"){
-                    cout << "ENTREI a" << endl;
+                if (params_temp.compare("a") == 0){
+                    // cout << "ENTREI a" << endl;
                     params_final.append(" /a h");
                 }
-                if (s == "l"){
-                    cout << "ENTREI l" << endl;
+                if (params_temp.compare("l") == 0){
+                    // cout << "ENTREI l" << endl;
                     params_final.append(" /w");
                 }
-            // }
+            }
             // DIR
-            // if (comando_input.compare("dir") == 0){
+            if (comando_input.compare("dir") == 0){
                 // se não tiver '-', adicione
                 if (params_final.find_first_of("-") == -1){
                     params_final.append(" -");
                 }
-                if (s == "/w"){
+                if (params_temp.compare("/w") == 0){
                     cout << "entrei w" << endl;
                     params_final.append("l");
                 }
-                if (s == "h"){
+                if (params_temp.compare("h") == 0){
                     params_final.append("a");
                 }
-                if (s == "s"){
+                if (params_temp.compare("s") == 0){
                     params_final.append("s");
                 }
-            // }
+            }
         // }
     // }
 
