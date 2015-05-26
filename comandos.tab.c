@@ -79,8 +79,11 @@
     ListaComandos cmds_aceitos;
 
     std::string comando_final = "";
+    std::string params_final = "";
     std::string comando_input = "";
     std::string params_input = "";
+
+    std::string temp_param = "";
     
     // Declaraao de escopo
     extern "C" int yylex();
@@ -106,7 +109,7 @@
 
 
 /* Line 268 of yacc.c  */
-#line 110 "comandos.tab.c"
+#line 113 "comandos.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -155,7 +158,7 @@ typedef union YYSTYPE
 {
 
 /* Line 293 of yacc.c  */
-#line 39 "comandos.y"
+#line 42 "comandos.y"
 
     int ival;
     float fval;
@@ -164,7 +167,7 @@ typedef union YYSTYPE
 
 
 /* Line 293 of yacc.c  */
-#line 168 "comandos.tab.c"
+#line 171 "comandos.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -176,7 +179,7 @@ typedef union YYSTYPE
 
 
 /* Line 343 of yacc.c  */
-#line 180 "comandos.tab.c"
+#line 183 "comandos.tab.c"
 
 #ifdef short
 # undef short
@@ -393,18 +396,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  13
+#define YYFINAL  16
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   19
+#define YYLAST   26
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  15
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  16
+#define YYNNTS  18
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  30
+#define YYNRULES  35
 /* YYNRULES -- Number of states.  */
-#define YYNSTATES  35
+#define YYNSTATES  40
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
@@ -451,9 +454,9 @@ static const yytype_uint8 yytranslate[] =
 static const yytype_uint8 yyprhs[] =
 {
        0,     0,     3,     5,     7,     9,    12,    16,    18,    20,
-      23,    25,    27,    29,    31,    34,    36,    39,    41,    44,
-      45,    49,    50,    54,    57,    59,    61,    63,    66,    68,
-      70
+      23,    25,    27,    29,    31,    34,    36,    39,    42,    46,
+      50,    52,    55,    57,    60,    61,    65,    66,    70,    73,
+      75,    77,    79,    82,    84,    86
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
@@ -462,20 +465,21 @@ static const yytype_int8 yyrhs[] =
       16,     0,    -1,    17,    -1,    21,    -1,    18,    -1,    18,
       14,    -1,     5,     3,    19,    -1,     5,    -1,    20,    -1,
       19,    20,    -1,     6,    -1,     7,    -1,     8,    -1,    22,
-      -1,    22,    14,    -1,     9,    -1,     9,    23,    -1,    24,
-      -1,    23,    24,    -1,    -1,    12,    25,    27,    -1,    -1,
-      13,    26,    29,    -1,    27,    28,    -1,    28,    -1,    10,
-      -1,    11,    -1,    29,    30,    -1,    30,    -1,     8,    -1,
-      11,    -1
+      -1,    22,    14,    -1,     9,    -1,     9,    24,    -1,     9,
+      23,    -1,     9,    23,    24,    -1,     9,    24,    23,    -1,
+      32,    -1,    23,    32,    -1,    25,    -1,    24,    25,    -1,
+      -1,    12,    26,    28,    -1,    -1,    13,    27,    30,    -1,
+      28,    29,    -1,    29,    -1,    10,    -1,    11,    -1,    30,
+      31,    -1,    31,    -1,     8,    -1,    11,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    61,    61,    62,    65,    66,    68,    69,    71,    72,
-      74,    75,    76,    79,    80,    82,    83,    85,    86,    88,
-      88,    89,    89,    91,    92,    94,    95,    97,    98,   100,
-     101
+       0,    64,    64,    65,    68,    69,    71,    72,    74,    75,
+      77,    78,    79,    84,    85,    87,    88,    89,    90,    91,
+      93,    94,    96,    97,    99,    99,   100,   100,   102,   103,
+     105,   106,   108,   109,   111,   113
 };
 #endif
 
@@ -488,9 +492,9 @@ static const char *const yytname[] =
   "INICIO_PARAMS_WINDOWS", "LS", "LS_LISTA", "LS_OCULTOS",
   "LS_DIR_TAMANHO", "DIR", "DIR_OCULTOS", "DIR_LISTA", "DIR_INI_ATTR",
   "DIR_INI_ORD", "FIM", "$accept", "input", "ls_fim", "ls", "ls_params",
-  "ls_param", "dir_fim", "dir", "dir_multi_params", "dir_params", "$@1",
-  "$@2", "dir_attr_params", "dir_attr_param", "dir_ord_params",
-  "dir_ord_param", 0
+  "ls_param", "dir_fim", "dir", "dir_multi_unico", "dir_multi_params",
+  "dir_params", "$@1", "$@2", "dir_attr_params", "dir_attr_param",
+  "dir_ord_params", "dir_ord_param", "dir_unico_param", 0
 };
 #endif
 
@@ -508,18 +512,18 @@ static const yytype_uint16 yytoknum[] =
 static const yytype_uint8 yyr1[] =
 {
        0,    15,    16,    16,    17,    17,    18,    18,    19,    19,
-      20,    20,    20,    21,    21,    22,    22,    23,    23,    25,
-      24,    26,    24,    27,    27,    28,    28,    29,    29,    30,
-      30
+      20,    20,    20,    21,    21,    22,    22,    22,    22,    22,
+      23,    23,    24,    24,    26,    25,    27,    25,    28,    28,
+      29,    29,    30,    30,    31,    32
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
        0,     2,     1,     1,     1,     2,     3,     1,     1,     2,
-       1,     1,     1,     1,     2,     1,     2,     1,     2,     0,
-       3,     0,     3,     2,     1,     1,     1,     2,     1,     1,
-       1
+       1,     1,     1,     1,     2,     1,     2,     2,     3,     3,
+       1,     2,     1,     2,     0,     3,     0,     3,     2,     1,
+       1,     1,     2,     1,     1,     1
 };
 
 /* YYDEFACT[STATE-NAME] -- Default reduction number in state STATE-NUM.
@@ -527,35 +531,35 @@ static const yytype_uint8 yyr2[] =
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,     7,    15,     0,     2,     4,     3,    13,     0,    19,
-      21,    16,    17,     1,     5,    14,    10,    11,    12,     6,
-       8,     0,     0,    18,     9,    25,    26,    20,    24,    29,
-      30,    22,    28,    23,    27
+       0,     7,    15,     0,     2,     4,     3,    13,     0,    35,
+      24,    26,    17,    16,    22,    20,     1,     5,    14,    10,
+      11,    12,     6,     8,     0,     0,    18,    21,    19,    23,
+       9,    30,    31,    25,    29,    34,    27,    33,    28,    32
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     3,     4,     5,    19,    20,     6,     7,    11,    12,
-      21,    22,    27,    28,    31,    32
+      -1,     3,     4,     5,    22,    23,     6,     7,    12,    13,
+      14,    24,    25,    33,    34,    36,    37,    15
 };
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -14
+#define YYPACT_NINF -13
 static const yytype_int8 yypact[] =
 {
-      -5,    -2,    -3,     3,   -14,    -1,   -14,     2,     0,   -14,
-     -14,    -3,   -14,   -14,   -14,   -14,   -14,   -14,   -14,     0,
-     -14,     1,    -6,   -14,   -14,   -14,   -14,     1,   -14,   -14,
-     -14,    -6,   -14,   -14,   -14
+      -4,    11,    -5,    17,   -13,     4,   -13,     5,     3,   -13,
+     -13,   -13,    -5,    -5,   -13,   -13,   -13,   -13,   -13,   -13,
+     -13,   -13,     3,   -13,    -7,    12,     0,   -13,    10,   -13,
+     -13,   -13,   -13,    -7,   -13,   -13,    12,   -13,   -13,   -13
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -14,   -14,   -14,   -14,   -14,    -4,   -14,   -14,   -14,     6,
-     -14,   -14,   -14,   -13,   -14,   -12
+     -13,   -13,   -13,   -13,   -13,     1,   -13,   -13,     9,    13,
+     -11,   -13,   -13,   -13,    -9,   -13,   -10,   -12
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -564,30 +568,32 @@ static const yytype_int8 yypgoto[] =
 #define YYTABLE_NINF -1
 static const yytype_uint8 yytable[] =
 {
-       1,     8,    29,    13,     2,    30,    16,    17,    18,     9,
-      10,    25,    26,    14,    33,    24,    15,    23,     0,    34
+      27,     1,    29,    31,    32,     2,     9,    10,    11,    19,
+      20,    21,    10,    11,     8,    29,    27,    16,    17,    18,
+      35,     9,    28,    30,    38,    26,    39
 };
 
 #define yypact_value_is_default(yystate) \
-  ((yystate) == (-14))
+  ((yystate) == (-13))
 
 #define yytable_value_is_error(yytable_value) \
   YYID (0)
 
-static const yytype_int8 yycheck[] =
+static const yytype_uint8 yycheck[] =
 {
-       5,     3,     8,     0,     9,    11,     6,     7,     8,    12,
-      13,    10,    11,    14,    27,    19,    14,    11,    -1,    31
+      12,     5,    13,    10,    11,     9,    11,    12,    13,     6,
+       7,     8,    12,    13,     3,    26,    28,     0,    14,    14,
+       8,    11,    13,    22,    33,    12,    36
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     5,     9,    16,    17,    18,    21,    22,     3,    12,
-      13,    23,    24,     0,    14,    14,     6,     7,     8,    19,
-      20,    25,    26,    24,    20,    10,    11,    27,    28,     8,
-      11,    29,    30,    28,    30
+       0,     5,     9,    16,    17,    18,    21,    22,     3,    11,
+      12,    13,    23,    24,    25,    32,     0,    14,    14,     6,
+       7,     8,    19,    20,    26,    27,    24,    32,    23,    25,
+      20,    10,    11,    28,    29,     8,    30,    31,    29,    31
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1424,81 +1430,81 @@ yyreduce:
         case 6:
 
 /* Line 1806 of yacc.c  */
-#line 68 "comandos.y"
+#line 71 "comandos.y"
     { guarda_comando((yyvsp[(1) - (3)].cval)); }
     break;
 
   case 7:
 
 /* Line 1806 of yacc.c  */
-#line 69 "comandos.y"
+#line 72 "comandos.y"
     { guarda_comando((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 10:
 
 /* Line 1806 of yacc.c  */
-#line 74 "comandos.y"
+#line 77 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 11:
 
 /* Line 1806 of yacc.c  */
-#line 75 "comandos.y"
+#line 78 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 12:
 
 /* Line 1806 of yacc.c  */
-#line 76 "comandos.y"
+#line 79 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 15:
 
 /* Line 1806 of yacc.c  */
-#line 82 "comandos.y"
+#line 87 "comandos.y"
     { guarda_comando((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 16:
 
 /* Line 1806 of yacc.c  */
-#line 83 "comandos.y"
+#line 88 "comandos.y"
     { guarda_comando((yyvsp[(1) - (2)].cval)); }
+    break;
+
+  case 17:
+
+/* Line 1806 of yacc.c  */
+#line 89 "comandos.y"
+    { guarda_comando((yyvsp[(1) - (2)].cval)); }
+    break;
+
+  case 18:
+
+/* Line 1806 of yacc.c  */
+#line 90 "comandos.y"
+    { guarda_comando((yyvsp[(1) - (3)].cval)); }
     break;
 
   case 19:
 
 /* Line 1806 of yacc.c  */
-#line 88 "comandos.y"
-    { guarda_parametro((yyvsp[(1) - (1)].cval)); guarda_parametro(" ");}
+#line 91 "comandos.y"
+    { guarda_comando((yyvsp[(1) - (3)].cval)); }
     break;
 
-  case 21:
+  case 24:
 
 /* Line 1806 of yacc.c  */
-#line 89 "comandos.y"
-    { guarda_parametro((yyvsp[(1) - (1)].cval)); guarda_parametro(" ");}
-    break;
-
-  case 25:
-
-/* Line 1806 of yacc.c  */
-#line 94 "comandos.y"
+#line 99 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 26:
-
-/* Line 1806 of yacc.c  */
-#line 95 "comandos.y"
-    { guarda_parametro((yyvsp[(1) - (1)].cval)); }
-    break;
-
-  case 29:
 
 /* Line 1806 of yacc.c  */
 #line 100 "comandos.y"
@@ -1508,14 +1514,35 @@ yyreduce:
   case 30:
 
 /* Line 1806 of yacc.c  */
-#line 101 "comandos.y"
+#line 105 "comandos.y"
+    { guarda_parametro((yyvsp[(1) - (1)].cval)); }
+    break;
+
+  case 31:
+
+/* Line 1806 of yacc.c  */
+#line 106 "comandos.y"
+    { guarda_parametro((yyvsp[(1) - (1)].cval)); }
+    break;
+
+  case 34:
+
+/* Line 1806 of yacc.c  */
+#line 111 "comandos.y"
+    { guarda_parametro((yyvsp[(1) - (1)].cval)); }
+    break;
+
+  case 35:
+
+/* Line 1806 of yacc.c  */
+#line 113 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
 
 
 /* Line 1806 of yacc.c  */
-#line 1519 "comandos.tab.c"
+#line 1546 "comandos.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1746,7 +1773,7 @@ yyreturn:
 
 
 /* Line 2067 of yacc.c  */
-#line 102 "comandos.y"
+#line 114 "comandos.y"
 
 
 int main(int, char**) {
@@ -1755,24 +1782,26 @@ int main(int, char**) {
     vtmp_l[0] = "l";
     vtmp_l[1] = "a";
     vtmp_l[2] = "s";
-    vtmp_w[0] = "L";
+    vtmp_w[0] = "/w";
     vtmp_w[1] = "h";
     vtmp_w[2] = "s";
     vtmp_w[3] = "/a";
     vtmp_w[4] = "/o";
     cmds_aceitos.adicionar_comando("ls", "dir", vtmp_l, vtmp_w);
-    std::string comando_equival = cmds_aceitos.comando_equival_str("aa");
-    cout << "comando equival= " << comando_equival << endl;
-    // do{
-    //     limpa_comando();
-    //     yyparse();
-    //     redireciona_comando();
-    // } while(1);
+    // std::string comando_equival = cmds_aceitos.comando_equival_str("aa");
+    // cout << "comando equival= " << comando_equival << endl;
+    do{
+        limpa_comando();
+        yyparse();
+        // redireciona_comando();
+        cout << "CMD: " << comando_final << "; PARAMS: " << params_final << endl;
+    } while(1);
 }
 
 // Função para limpar os comandos gravados da última entrada
 void limpa_comando(){
     comando_final = "";
+    params_final = "";
     comando_input = "";
     params_input = "";
 }
@@ -1809,13 +1838,62 @@ void ls_dir_comando(){
 }
 
 void guarda_comando(const char *s){
-    comando_input.append(s);
-    cout << "ci: " << comando_input << endl;
+    comando_input = s;
+    comando_final = cmds_aceitos.comando_equival_str(s);
+    cout << "CMDACTS: " << cmds_aceitos.comando_equival_str(s) << endl;
 }
 
 void guarda_parametro(const char *s){
-    params_input.append(s);
-    cout << "pi: " << params_input << endl;
+    // params_input.append(s);
+    // cout << "pi: " << params_input << endl;
+    std::string params_temp = cmds_aceitos.param_equival_str(s, comando_input);
+    // cout << "PARTMP = " << params_temp << endl;
+    // params_temp.append(cmds_aceitos.param_equival(s, comando_input));
+     
+    // É DIFERENTE DO SISTEMA, TEM QUE TRATAR
+    // if (cmds_aceitos.comando_equival_str(comando_input).compare(comando_input) != 0){
+        // LS E DIR
+        // if (params_temp == cmds_aceitos.comando_equival_str("ls")){
+            // LS
+            // if (comando_input.compare("ls") == 0){
+                if (s == "s"){
+                    cout << "ENTREI s" << endl;
+                    params_final.append(" /o s");
+                }
+                if (s == "a"){
+                    cout << "ENTREI a" << endl;
+                    params_final.append(" /a h");
+                }
+                if (s == "l"){
+                    cout << "ENTREI l" << endl;
+                    params_final.append(" /w");
+                }
+            // }
+            // DIR
+            // if (comando_input.compare("dir") == 0){
+                // se não tiver '-', adicione
+                if (params_final.find_first_of("-") == -1){
+                    params_final.append(" -");
+                }
+                if (s == "/w"){
+                    cout << "entrei w" << endl;
+                    params_final.append("l");
+                }
+                if (s == "h"){
+                    params_final.append("a");
+                }
+                if (s == "s"){
+                    params_final.append("s");
+                }
+            // }
+        // }
+    // }
+
+    // SE FOR IGUAL AO DO SISTEMA, ACHO QUE NÃO PRECISA TRATAR.
+    // else{
+
+    // }
+    // params_final.append(cmds_aceitos.param_equival_str(s, comando_input));
 }
 
 void teste(){

@@ -10,8 +10,11 @@
     ListaComandos cmds_aceitos;
 
     std::string comando_final = "";
+    std::string params_final = "";
     std::string comando_input = "";
     std::string params_input = "";
+
+    std::string temp_param = "";
     
     // Declaraao de escopo
     extern "C" int yylex();
@@ -75,18 +78,26 @@ ls_param:
     | LS_OCULTOS { guarda_parametro($1); }
     | LS_DIR_TAMANHO { guarda_parametro($1); }
 
+
+
 dir_fim:
     dir
     | dir FIM
 dir:
     DIR { guarda_comando($1); }
     | DIR dir_multi_params { guarda_comando($1); }
+    | DIR dir_multi_unico  { guarda_comando($1); }
+    | DIR dir_multi_unico dir_multi_params  { guarda_comando($1); }
+    | DIR dir_multi_params dir_multi_unico  { guarda_comando($1); }
+dir_multi_unico:
+    dir_unico_param
+    | dir_multi_unico dir_unico_param
 dir_multi_params:
     dir_params
     | dir_multi_params dir_params
 dir_params:
-    DIR_INI_ATTR { guarda_parametro($1); guarda_parametro(" ");} dir_attr_params
-    | DIR_INI_ORD { guarda_parametro($1); guarda_parametro(" ");} dir_ord_params
+    DIR_INI_ATTR { guarda_parametro($1); } dir_attr_params
+    | DIR_INI_ORD { guarda_parametro($1); } dir_ord_params
 dir_attr_params:
     dir_attr_params dir_attr_param
     | dir_attr_param
@@ -98,7 +109,8 @@ dir_ord_params:
     | dir_ord_param
 dir_ord_param:
     LS_DIR_TAMANHO { guarda_parametro($1); }
-    | DIR_LISTA { guarda_parametro($1); }
+dir_unico_param:
+    DIR_LISTA { guarda_parametro($1); }
 %%
 
 int main(int, char**) {
@@ -107,24 +119,26 @@ int main(int, char**) {
     vtmp_l[0] = "l";
     vtmp_l[1] = "a";
     vtmp_l[2] = "s";
-    vtmp_w[0] = "L";
+    vtmp_w[0] = "/w";
     vtmp_w[1] = "h";
     vtmp_w[2] = "s";
     vtmp_w[3] = "/a";
     vtmp_w[4] = "/o";
     cmds_aceitos.adicionar_comando("ls", "dir", vtmp_l, vtmp_w);
-    std::string comando_equival = cmds_aceitos.comando_equival_str("aa");
-    cout << "comando equival= " << comando_equival << endl;
-    // do{
-    //     limpa_comando();
-    //     yyparse();
-    //     redireciona_comando();
-    // } while(1);
+    // std::string comando_equival = cmds_aceitos.comando_equival_str("aa");
+    // cout << "comando equival= " << comando_equival << endl;
+    do{
+        limpa_comando();
+        yyparse();
+        // redireciona_comando();
+        cout << "CMD: " << comando_final << "; PARAMS: " << params_final << endl;
+    } while(1);
 }
 
 // Função para limpar os comandos gravados da última entrada
 void limpa_comando(){
     comando_final = "";
+    params_final = "";
     comando_input = "";
     params_input = "";
 }
@@ -161,13 +175,62 @@ void ls_dir_comando(){
 }
 
 void guarda_comando(const char *s){
-    comando_input.append(s);
-    cout << "ci: " << comando_input << endl;
+    comando_input = s;
+    comando_final = cmds_aceitos.comando_equival_str(s);
+    cout << "CMDACTS: " << cmds_aceitos.comando_equival_str(s) << endl;
 }
 
 void guarda_parametro(const char *s){
-    params_input.append(s);
-    cout << "pi: " << params_input << endl;
+    // params_input.append(s);
+    // cout << "pi: " << params_input << endl;
+    std::string params_temp = cmds_aceitos.param_equival_str(s, comando_input);
+    // cout << "PARTMP = " << params_temp << endl;
+    // params_temp.append(cmds_aceitos.param_equival(s, comando_input));
+     
+    // É DIFERENTE DO SISTEMA, TEM QUE TRATAR
+    // if (cmds_aceitos.comando_equival_str(comando_input).compare(comando_input) != 0){
+        // LS E DIR
+        // if (params_temp == cmds_aceitos.comando_equival_str("ls")){
+            // LS
+            // if (comando_input.compare("ls") == 0){
+                if (s == "s"){
+                    cout << "ENTREI s" << endl;
+                    params_final.append(" /o s");
+                }
+                if (s == "a"){
+                    cout << "ENTREI a" << endl;
+                    params_final.append(" /a h");
+                }
+                if (s == "l"){
+                    cout << "ENTREI l" << endl;
+                    params_final.append(" /w");
+                }
+            // }
+            // DIR
+            // if (comando_input.compare("dir") == 0){
+                // se não tiver '-', adicione
+                if (params_final.find_first_of("-") == -1){
+                    params_final.append(" -");
+                }
+                if (s == "/w"){
+                    cout << "entrei w" << endl;
+                    params_final.append("l");
+                }
+                if (s == "h"){
+                    params_final.append("a");
+                }
+                if (s == "s"){
+                    params_final.append("s");
+                }
+            // }
+        // }
+    // }
+
+    // SE FOR IGUAL AO DO SISTEMA, ACHO QUE NÃO PRECISA TRATAR.
+    // else{
+
+    // }
+    // params_final.append(cmds_aceitos.param_equival_str(s, comando_input));
 }
 
 void teste(){

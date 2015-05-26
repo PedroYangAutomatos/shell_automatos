@@ -16,6 +16,7 @@ class ListaComandos{
         ComandoParams busca_indice(int);
         void adicionar_comando(std::string, std::string, std::vector<std::string>, std::vector<std::string>);
         std::string comando_equival_str(std::string);
+        std::string param_equival_str(std::string, std::string);
 };
 
 // Retorna o índice do comando na lista, ou -1 se não achou
@@ -74,4 +75,31 @@ std::string ListaComandos::comando_equival_str(std::string cmd_i){
     else{
         return "";
     }
+}
+
+std::string ListaComandos::param_equival_str(std::string param_i, std::string cmd_i){
+    int tam = ListaComandos::tam();
+    int indice; // indice de std::vector<ComandoParams> comandos
+    int indice_comando = -1;
+    indice = ListaComandos::procura_comando(cmd_i);
+
+    if (indice != -1){
+        return comandos[indice].param_equival(param_i);
+    }
+    else{
+        return "";
+    }
+
+    // if (tam > 0){
+    //     int i = 0; // i = indice de std::vector<ComandoParams> comandos
+    //     while (i < tam){
+    //         indice_comando = comandos[i].verifica(comando);
+    //         // Se achou, tenho que sair e não cagar na variável
+    //         if (indice_comando == 0 || indice_comando == 1)
+    //             return i; // RETORNO O INDICE DA LISTA DESSA CLASSE, E NÃO O INDÍCE 0 OU 1 DA CLASSE COMANDOPARAMS
+    //         i++;
+    //     }
+    // }
+
+    // return -1;
 }

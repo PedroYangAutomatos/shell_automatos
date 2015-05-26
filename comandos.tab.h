@@ -59,7 +59,7 @@ typedef union YYSTYPE
 {
 
 /* Line 2068 of yacc.c  */
-#line 39 "comandos.y"
+#line 42 "comandos.y"
 
     int ival;
     float fval;
