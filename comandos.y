@@ -86,31 +86,23 @@ dir_fim:
 dir:
     DIR { guarda_comando($1); }
     | DIR { guarda_comando($1); } dir_multi_params 
-    | DIR { guarda_comando($1); } dir_multi_unico
-    | DIR { guarda_comando($1); } dir_multi_unico dir_multi_params
-    | DIR { guarda_comando($1); } dir_multi_params dir_multi_unico
-dir_multi_unico:
-    dir_unico_param
-    | dir_multi_unico dir_unico_param
 dir_multi_params:
     dir_params
     | dir_multi_params dir_params
 dir_params:
     DIR_INI_ATTR { guarda_parametro($1); } dir_attr_params
     | DIR_INI_ORD { guarda_parametro($1); } dir_ord_params
+    | DIR_LISTA { guarda_parametro($1); }
 dir_attr_params:
     dir_attr_params dir_attr_param
     | dir_attr_param
 dir_attr_param:
     DIR_OCULTOS { guarda_parametro($1); }
-    | DIR_LISTA { guarda_parametro($1); }
 dir_ord_params:
     dir_ord_params dir_ord_param
     | dir_ord_param
 dir_ord_param:
     LS_DIR_TAMANHO { guarda_parametro($1); }
-dir_unico_param:
-    DIR_LISTA { guarda_parametro($1); }
 %%
 
 int main(int, char**) {
@@ -179,25 +171,23 @@ void guarda_comando(const char *s){
 }
 
 void guarda_parametro(const char *s){
-    cout << "teste ci: " << comando_input << endl;
     std::string params_temp = s;
-     
+        cout << "teste ci: " << comando_input <<  "; teste pi: " << params_temp <<endl;
+    std::string teq = cmds_aceitos.comando_equival_str("dir");
+
     // É DIFERENTE DO SISTEMA, TEM QUE TRATAR
-    // if (cmds_aceitos.comando_equival_str(comando_input).compare(comando_input) != 0){
+    if (cmds_aceitos.comando_equival_str(comando_input).compare(comando_input) != 0){
         // LS E DIR
-        // if (params_temp == cmds_aceitos.comando_equival_str("ls")){
+        if (params_temp == cmds_aceitos.comando_equival_str("ls")){
             // LS
             if (comando_input.compare("ls") == 0){
                 if (params_temp.compare("s") == 0){
-                    // cout << "ENTREI s" << endl;
                     params_final.append(" /o s");
                 }
                 if (params_temp.compare("a") == 0){
-                    // cout << "ENTREI a" << endl;
                     params_final.append(" /a h");
                 }
                 if (params_temp.compare("l") == 0){
-                    // cout << "ENTREI l" << endl;
                     params_final.append(" /w");
                 }
             }
@@ -208,7 +198,6 @@ void guarda_parametro(const char *s){
                     params_final.append(" -");
                 }
                 if (params_temp.compare("/w") == 0){
-                    cout << "entrei w" << endl;
                     params_final.append("l");
                 }
                 if (params_temp.compare("h") == 0){
@@ -218,13 +207,12 @@ void guarda_parametro(const char *s){
                     params_final.append("s");
                 }
             }
-        // }
-    // }
+        }
+    }
 
     // SE FOR IGUAL AO DO SISTEMA, ACHO QUE NÃO PRECISA TRATAR.
-    // else{
-
-    // }
+    else{
+    }
     // params_final.append(cmds_aceitos.param_equival_str(s, comando_input));
 }
 
