@@ -23,7 +23,10 @@ s     { yylval.cval = strdup(yytext); return LS_DIR_TAMANHO; }
 "/o"    { yylval.cval = strdup(yytext); return DIR_INI_ORD; }
 [\n]    { yylval.cval = strdup(yytext); return FIM; }
 
-cd      { yylval.cval = strdup(yytext); return MUDA_DIR; }
-[a-z][a-z0-9]* { yylval.cval = strdup(yytext); return ID; }
+"/"    { yylval.cval = strdup(yytext); return BARRA; }
+
+cd    { yylval.cval = strdup(yytext); return MUDA_DIR; }
+[a-zA-Z0-9] { yylval.cval = strdup(yytext); return ID; }
+
 .       ;
 %%

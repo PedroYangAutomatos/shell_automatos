@@ -57,6 +57,7 @@
 %token <cval> DIR_INI_ORD;
 %token <cval> MUDA_DIR;
 %token <cval> ID;
+%token <cval> BARRA;
 
 %token FIM;
 %%
@@ -64,13 +65,6 @@
 input:
     ls_fim
     | dir_fim
-    | muda_dir_fim
-
-muda_dir_fim:
-    muda_dir
-    | muda_dir FIM
-muda_dir:
-    MUDA_DIR { guarda_comando($1); } ID { guarda_parametro($3); }
 
 ls_fim:
     ls
@@ -163,10 +157,10 @@ void guarda_parametro(const char *s){
     std::string params_temp = s;
 
     // É DIFERENTE DO SISTEMA, TEM QUE TRATAR
-    if (cmds_aceitos.comando_equival_str(comando_input).compare(comando_input) != 0){
+    // if (cmds_aceitos.comando_equival_str(comando_input).compare(comando_input) != 0){
 
-        // LS E DIR
-        if (comando_input.compare("ls") == 0 || comando_input.compare("dir") == 0){
+    //     // LS E DIR
+    //     if (comando_input.compare("ls") == 0 || comando_input.compare("dir") == 0){
             // LS
             if (comando_input.compare("ls") == 0){
                 if (params_temp.compare("s") == 0){
@@ -195,7 +189,7 @@ void guarda_parametro(const char *s){
                     params_final.append("s");
                 }
             }
-        } // LS E DIR
+        // } // LS E DIR
 
         // CD
         if (comando_input.compare("cd") == 0){
@@ -203,14 +197,14 @@ void guarda_parametro(const char *s){
         } // CD
 
 
-    }
+    // }
 
     // SE FOR IGUAL AO DO SISTEMA, ACHO QUE NÃO PRECISA TRATAR.
-    else{
-        cout << "ELSEEEE" << endl;
-        params_final.append(s);
-    }
-    // params_final.append(cmds_aceitos.param_equival_str(s, comando_input));
+//     else{
+//         cout << "ELSEEEE" << endl;
+//         params_final.append(s);
+//     }
+//     // params_final.append(cmds_aceitos.param_equival_str(s, comando_input));
 }
 
 void teste(){

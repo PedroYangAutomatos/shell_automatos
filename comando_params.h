@@ -7,9 +7,9 @@ using namespace std;
 
 // A variavel VAL_SYS vai ser usada nos indices de tudo
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-    static const int VAL_SYS = 1; // Windows
+    static const int VAL_SYS = 0; // Windows
 #else
-    static const int VAL_SYS = 0; // Linux mestre-corrida
+    static const int VAL_SYS = 1; // Linux mestre-corrida
 #endif
 
 // Essa classe é só para armazenar um comando (e o equivalente na outra plataforma),
