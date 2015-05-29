@@ -54,6 +54,10 @@
 %token <cval> MUDA_DIR;
 %token <cval> ID_DIRETORIOS;
 %token <cval> LOCAL_ATUAL;
+%token <cval> CLEAR;
+%token <cval> CLS;
+%token <cval> DISCO_WINDOWS;
+
 
 %token FIM;
 %%
@@ -63,6 +67,7 @@ input:
     | dir_fim
     | muda_dir_fim
     | local_atual_fim
+    | limpa_tela_fim
 
 ls_fim:
     ls
@@ -110,11 +115,21 @@ muda_dir:
     MUDA_DIR { guarda_comando($1); }
     | MUDA_DIR {guarda_comando($1); } diretorios
 diretorios:
+    diretorios_windows_disco
+    | diretorios_caminho
+diretorios_caminho:
     ID_DIRETORIOS { guarda_parametro($1); }
-    | ID_DIRETORIOS { guarda_parametro($1); } diretorios
+    | ID_DIRETORIOS { guarda_parametro($1); } diretorios_caminho
+diretorios_windows_disco:
+    DISCO_WINDOWS { guarda_parametro($1); } diretorios_caminho
 
 local_atual_fim:
     LOCAL_ATUAL { guarda_comando($1); } FIM
+
+limpa_tela_fim:
+    CLEAR { guarda_comando($1); } FIM
+    | CLS { guarda_comando($1); } FIM
+
 %%
 
 int main(int, char**) {
@@ -123,10 +138,8 @@ int main(int, char**) {
         limpa_comando();
         yyparse();
         comando_param_final.append(comando_final);
-        // as vezes eu tenho que por condições para esse código abaixo 
         comando_param_final.append(" ");
         comando_param_final.append(params_final);
-        // checar outros eventos aqui, como por exemplo o cd sem params
         system(comando_param_final.c_str());
         cout << "COMANDO=" << comando_param_final << endl;
     } while(1);
@@ -136,6 +149,7 @@ void popular_comandos_equivalentes(){
     cmds_aceitos.adicionar_comando("ls", "dir");
     cmds_aceitos.adicionar_comando("cd", "cd");
     cmds_aceitos.adicionar_comando("pwd", "cd");
+    cmds_aceitos.adicionar_comando("clear", "cls");
 }
 
 // Função para limpar os comandos gravados da última entrada
@@ -193,21 +207,27 @@ void guarda_parametro(const char *s){
 
         // CD
         if (comando_input.compare("cd") == 0){
-            cout << "entrei cddddddddddddddd" << endl;
-            // A regra do CD não é aqui. Fica a mesma coias nos dois
             params_final.append(s);
         } // CD
 
 
     } // SISTEMA
 
-    // SE FOR IGUAL AO DO SISTEMA, ACHO QUE NÃO PRECISA TRATAR.
     else{
         params_final.append(s);
+    }
+    // Se tiver no linux
+    if (comando_input.compare("cd") == 0){
+        if (VAL_SYS == 0){
+            // Se tiver o disco como fazemos no windows. Exemplo: c:/
+            if (params_final.find_first_of(":") == 1){
+                params_final.erase(0, 2);
+            }
+        }
     }
 //     // params_final.append(cmds_aceitos.param_equival_str(s, comando_input));
 }
 
 void yyerror(const char *s) {
-    cout << "EEK, parse error!  Message: " << s << endl;
+    cout << "ERRO: COMANDO DESCONHECIDO!" << s << endl;
 }

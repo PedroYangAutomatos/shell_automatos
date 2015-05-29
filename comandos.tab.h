@@ -37,20 +37,23 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     FIM = 258,
-     INICIO_PARAMS_LINUX = 259,
-     LS = 260,
-     LS_LISTA = 261,
-     LS_OCULTOS = 262,
-     LS_DIR_TAMANHO = 263,
-     DIR = 264,
-     DIR_OCULTOS = 265,
-     DIR_LISTA = 266,
-     DIR_INI_ATTR = 267,
-     DIR_INI_ORD = 268,
-     MUDA_DIR = 269,
-     ID_DIRETORIOS = 270,
-     LOCAL_ATUAL = 271
+     INICIO_PARAMS_LINUX = 258,
+     LS = 259,
+     LS_LISTA = 260,
+     LS_OCULTOS = 261,
+     LS_DIR_TAMANHO = 262,
+     DIR = 263,
+     DIR_OCULTOS = 264,
+     DIR_LISTA = 265,
+     DIR_INI_ATTR = 266,
+     DIR_INI_ORD = 267,
+     MUDA_DIR = 268,
+     ID_DIRETORIOS = 269,
+     LOCAL_ATUAL = 270,
+     CLEAR = 271,
+     CLS = 272,
+     DISCO_WINDOWS = 273,
+     FIM = 274
    };
 #endif
 
@@ -70,7 +73,7 @@ typedef union YYSTYPE
 
 
 /* Line 2068 of yacc.c  */
-#line 74 "comandos.tab.h"
+#line 77 "comandos.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
