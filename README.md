@@ -6,3 +6,9 @@ Iremos implementar um SHELL multiplataforma.
 Se for dado um comando do Windows em um Linux, ele usará o equivalente. E vice-versa.
 
 Por exemplo: usar dir no Linux resultará no ls.
+
+Comandos implementados:
+ls e dir;
+cd e cd;
+pwd e cd;
+clear e cls.
