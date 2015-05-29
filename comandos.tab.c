@@ -90,13 +90,6 @@
     extern "C" int yyparse();
     extern "C" char *yytext;
 
-    // A variavel VAL_SYS_C vai ser usada nos indices de tudo
-    // #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-    //     static const int VAL_SYS_C = 1; // Windows
-    // #else
-    //     static const int VAL_SYS_C = 0; // Linux mestre-corrida
-    // #endif
-    
     void yyerror(const char *s);
     void limpa_comando();
     void guarda_comando(const char *s);
@@ -105,7 +98,7 @@
 
 
 /* Line 268 of yacc.c  */
-#line 109 "comandos.tab.c"
+#line 102 "comandos.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -159,7 +152,7 @@ typedef union YYSTYPE
 {
 
 /* Line 293 of yacc.c  */
-#line 38 "comandos.y"
+#line 31 "comandos.y"
 
     int ival;
     float fval;
@@ -168,7 +161,7 @@ typedef union YYSTYPE
 
 
 /* Line 293 of yacc.c  */
-#line 172 "comandos.tab.c"
+#line 165 "comandos.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -180,7 +173,7 @@ typedef union YYSTYPE
 
 
 /* Line 343 of yacc.c  */
-#line 184 "comandos.tab.c"
+#line 177 "comandos.tab.c"
 
 #ifdef short
 # undef short
@@ -484,12 +477,12 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    66,    66,    67,    68,    69,    70,    73,    74,    76,
-      76,    76,    77,    79,    80,    82,    83,    84,    88,    89,
-      91,    92,    92,    94,    95,    97,    97,    98,    98,    99,
-     101,   102,   104,   106,   107,   109,   112,   113,   115,   116,
-     116,   118,   119,   121,   122,   122,   124,   124,   127,   127,
-     130,   130,   131,   131
+       0,    57,    57,    58,    59,    60,    61,    64,    65,    67,
+      67,    67,    68,    70,    71,    73,    74,    75,    78,    79,
+      81,    82,    82,    84,    85,    87,    87,    88,    88,    89,
+      91,    92,    94,    96,    97,    99,   102,   103,   105,   106,
+     106,   108,   109,   111,   112,   112,   114,   114,   117,   117,
+     120,   120,   121,   121
 };
 #endif
 
@@ -1464,154 +1457,154 @@ yyreduce:
         case 9:
 
 /* Line 1806 of yacc.c  */
-#line 76 "comandos.y"
+#line 67 "comandos.y"
     { guarda_comando((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 10:
 
 /* Line 1806 of yacc.c  */
-#line 76 "comandos.y"
+#line 67 "comandos.y"
     { guarda_parametro((yyvsp[(3) - (3)].cval)); }
     break;
 
   case 12:
 
 /* Line 1806 of yacc.c  */
-#line 77 "comandos.y"
+#line 68 "comandos.y"
     { guarda_comando((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 15:
 
 /* Line 1806 of yacc.c  */
-#line 82 "comandos.y"
+#line 73 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 16:
 
 /* Line 1806 of yacc.c  */
-#line 83 "comandos.y"
+#line 74 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 17:
 
 /* Line 1806 of yacc.c  */
-#line 84 "comandos.y"
+#line 75 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 20:
 
 /* Line 1806 of yacc.c  */
-#line 91 "comandos.y"
+#line 81 "comandos.y"
     { guarda_comando((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 21:
 
 /* Line 1806 of yacc.c  */
-#line 92 "comandos.y"
+#line 82 "comandos.y"
     { guarda_comando((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 25:
 
 /* Line 1806 of yacc.c  */
-#line 97 "comandos.y"
+#line 87 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 27:
 
 /* Line 1806 of yacc.c  */
-#line 98 "comandos.y"
+#line 88 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 29:
 
 /* Line 1806 of yacc.c  */
-#line 99 "comandos.y"
+#line 89 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 32:
 
 /* Line 1806 of yacc.c  */
-#line 104 "comandos.y"
+#line 94 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 35:
 
 /* Line 1806 of yacc.c  */
-#line 109 "comandos.y"
+#line 99 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 38:
 
 /* Line 1806 of yacc.c  */
-#line 115 "comandos.y"
+#line 105 "comandos.y"
     { guarda_comando((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 39:
 
 /* Line 1806 of yacc.c  */
-#line 116 "comandos.y"
+#line 106 "comandos.y"
     {guarda_comando((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 43:
 
 /* Line 1806 of yacc.c  */
-#line 121 "comandos.y"
+#line 111 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 44:
 
 /* Line 1806 of yacc.c  */
-#line 122 "comandos.y"
+#line 112 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 46:
 
 /* Line 1806 of yacc.c  */
-#line 124 "comandos.y"
+#line 114 "comandos.y"
     { guarda_parametro((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 48:
 
 /* Line 1806 of yacc.c  */
-#line 127 "comandos.y"
+#line 117 "comandos.y"
     { guarda_comando((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 50:
 
 /* Line 1806 of yacc.c  */
-#line 130 "comandos.y"
+#line 120 "comandos.y"
     { guarda_comando((yyvsp[(1) - (1)].cval)); }
     break;
 
   case 52:
 
 /* Line 1806 of yacc.c  */
-#line 131 "comandos.y"
+#line 121 "comandos.y"
     { guarda_comando((yyvsp[(1) - (1)].cval)); }
     break;
 
 
 
 /* Line 1806 of yacc.c  */
-#line 1615 "comandos.tab.c"
+#line 1608 "comandos.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1842,7 +1835,7 @@ yyreturn:
 
 
 /* Line 2067 of yacc.c  */
-#line 133 "comandos.y"
+#line 123 "comandos.y"
 
 
 int main(int, char**) {
@@ -1930,15 +1923,17 @@ void guarda_parametro(const char *s){
         params_final.append(s);
     }
     // Se tiver no linux
-    if (comando_input.compare("cd") == 0){
+    if (comando_input.compare("cd") == 0 || comando_input.compare("cp") == 0 || comando_input.compare("rm") == 0){
         if (VAL_SYS == 0){
             // Se tiver o disco como fazemos no windows. Exemplo: c:/
             if (params_final.find_first_of(":") == 1){
                 params_final.erase(0, 2);
             }
         }
+        else{
+            params_final.insert(0, "c:");
+        }
     }
-//     // params_final.append(cmds_aceitos.param_equival_str(s, comando_input));
 }
 
 void yyerror(const char *s) {

@@ -21,13 +21,6 @@
     extern "C" int yyparse();
     extern "C" char *yytext;
 
-    // A variavel VAL_SYS_C vai ser usada nos indices de tudo
-    // #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-    //     static const int VAL_SYS_C = 1; // Windows
-    // #else
-    //     static const int VAL_SYS_C = 0; // Linux mestre-corrida
-    // #endif
-    
     void yyerror(const char *s);
     void limpa_comando();
     void guarda_comando(const char *s);
@@ -57,8 +50,6 @@
 %token <cval> CLEAR;
 %token <cval> CLS;
 %token <cval> DISCO_WINDOWS;
-
-
 %token FIM;
 %%
 
@@ -82,7 +73,6 @@ ls_param:
     LS_LISTA { guarda_parametro($1); }
     | LS_OCULTOS { guarda_parametro($1); }
     | LS_DIR_TAMANHO { guarda_parametro($1); }
-
 
 dir_fim:
     dir
@@ -217,15 +207,17 @@ void guarda_parametro(const char *s){
         params_final.append(s);
     }
     // Se tiver no linux
-    if (comando_input.compare("cd") == 0){
+    if (comando_input.compare("cd") == 0 || comando_input.compare("cp") == 0 || comando_input.compare("rm") == 0){
         if (VAL_SYS == 0){
             // Se tiver o disco como fazemos no windows. Exemplo: c:/
             if (params_final.find_first_of(":") == 1){
                 params_final.erase(0, 2);
             }
         }
+        else{
+            params_final.insert(0, "c:");
+        }
     }
-//     // params_final.append(cmds_aceitos.param_equival_str(s, comando_input));
 }
 
 void yyerror(const char *s) {
