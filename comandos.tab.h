@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 2.7.  */
+/* A Bison parser, made by GNU Bison 2.5.  */
 
 /* Bison interface for Yacc-like parsers in C
    
-      Copyright (C) 1984, 1989-1990, 2000-2012 Free Software Foundation, Inc.
+      Copyright (C) 1984, 1989-1990, 2000-2011 Free Software Foundation, Inc.
    
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -30,15 +30,6 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-#ifndef YY_YY_COMANDOS_TAB_H_INCLUDED
-# define YY_YY_COMANDOS_TAB_H_INCLUDED
-/* Enabling traces.  */
-#ifndef YYDEBUG
-# define YYDEBUG 0
-#endif
-#if YYDEBUG
-extern int yydebug;
-#endif
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -46,37 +37,40 @@ extern int yydebug;
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     INICIO_PARAMS_LINUX = 258,
-     LS = 259,
-     LS_LISTA = 260,
-     LS_OCULTOS = 261,
-     LS_DIR_TAMANHO = 262,
-     DIR = 263,
-     DIR_OCULTOS = 264,
-     DIR_LISTA = 265,
-     DIR_INI_ATTR = 266,
-     DIR_INI_ORD = 267,
-     MUDA_DIR = 268,
-     ID = 269,
-     BARRA = 270,
-     FIM = 271
+     FIM = 258,
+     INICIO_PARAMS_LINUX = 259,
+     LS = 260,
+     LS_LISTA = 261,
+     LS_OCULTOS = 262,
+     LS_DIR_TAMANHO = 263,
+     DIR = 264,
+     DIR_OCULTOS = 265,
+     DIR_LISTA = 266,
+     DIR_INI_ATTR = 267,
+     DIR_INI_ORD = 268,
+     MUDA_DIR = 269,
+     ID_DIRETORIOS = 270,
+     LOCAL_ATUAL = 271
    };
 #endif
+
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
 {
-/* Line 2058 of yacc.c  */
-#line 42 "comandos.y"
+
+/* Line 2068 of yacc.c  */
+#line 38 "comandos.y"
 
     int ival;
     float fval;
     char *cval;
 
 
-/* Line 2058 of yacc.c  */
-#line 80 "comandos.tab.h"
+
+/* Line 2068 of yacc.c  */
+#line 74 "comandos.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -85,18 +79,4 @@ typedef union YYSTYPE
 
 extern YYSTYPE yylval;
 
-#ifdef YYPARSE_PARAM
-#if defined __STDC__ || defined __cplusplus
-int yyparse (void *YYPARSE_PARAM);
-#else
-int yyparse ();
-#endif
-#else /* ! YYPARSE_PARAM */
-#if defined __STDC__ || defined __cplusplus
-int yyparse (void);
-#else
-int yyparse ();
-#endif
-#endif /* ! YYPARSE_PARAM */
 
-#endif /* !YY_YY_COMANDOS_TAB_H_INCLUDED  */

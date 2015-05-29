@@ -1,22 +1,18 @@
-// #include <iostream>
-// #include <cstdlib>
-// #include <string>
-// #include <vector>
-#include "comando_params.h"
+#include <vector>
+#include "comando.h"
 
 using namespace std;
 
 class ListaComandos{
     private:
-        std::vector<ComandoParams> comandos;
+        std::vector<Comando> comandos;
     public:
         int procura_comando(std::string);
         int tam();
         void aumentar_tamanho();
-        ComandoParams busca_indice(int);
-        void adicionar_comando(std::string, std::string, std::vector<std::string>, std::vector<std::string>);
+        Comando busca_indice(int);
+        void adicionar_comando(std::string, std::string);
         std::string comando_equival_str(std::string);
-        std::string param_equival_str(std::string, std::string);
 };
 
 // Retorna o índice do comando na lista, ou -1 se não achou
@@ -26,12 +22,12 @@ int ListaComandos::procura_comando(std::string comando){
 
 
     if (tam > 0){
-        int i = 0; // i = indice de std::vector<ComandoParams> comandos
+        int i = 0; // i = indice de std::vector<Comando> comandos
         while (i < tam){
             indice_comando = comandos[i].verifica(comando);
             // Se achou, tenho que sair e não cagar na variável
             if (indice_comando == 0 || indice_comando == 1)
-                return i; // RETORNO O INDICE DA LISTA DESSA CLASSE, E NÃO O INDÍCE 0 OU 1 DA CLASSE COMANDOPARAMS
+                return i; // RETORNO O INDICE DA LISTA DESSA CLASSE, E NÃO O INDÍCE 0 OU 1 DA CLASSE Comando
             i++;
         }
     }
@@ -48,25 +44,25 @@ void ListaComandos::aumentar_tamanho(){
     comandos.resize(comandos.size() + 1);
 }
 
-ComandoParams ListaComandos::busca_indice(int indice){
+Comando ListaComandos::busca_indice(int indice){
     if (ListaComandos::tam() < indice)
         exit(1);
     else
         return comandos[indice];
 }
 
-void ListaComandos::adicionar_comando(std::string cl, std::string cw, std::vector<std::string> pl, std::vector<std::string> pw){
+void ListaComandos::adicionar_comando(std::string cl, std::string cw){
     ListaComandos::aumentar_tamanho();
     int tamanho = ListaComandos::tam() - 1;
 
     if (tamanho < 0)
         return;
 
-    comandos[tamanho].adicionar(cl, cw, pl, pw);
+    comandos[tamanho].adicionar(cl, cw);
 }
 
 std::string ListaComandos::comando_equival_str(std::string cmd_i){
-    int indice; // indice de std::vector<ComandoParams> comandos
+    int indice; // indice de std::vector<Comando> comandos
     indice = ListaComandos::procura_comando(cmd_i);
 
     if (indice != -1){
@@ -75,31 +71,4 @@ std::string ListaComandos::comando_equival_str(std::string cmd_i){
     else{
         return "";
     }
-}
-
-std::string ListaComandos::param_equival_str(std::string param_i, std::string cmd_i){
-    int tam = ListaComandos::tam();
-    int indice; // indice de std::vector<ComandoParams> comandos
-    int indice_comando = -1;
-    indice = ListaComandos::procura_comando(cmd_i);
-
-    if (indice != -1){
-        return comandos[indice].param_equival(param_i);
-    }
-    else{
-        return "";
-    }
-
-    // if (tam > 0){
-    //     int i = 0; // i = indice de std::vector<ComandoParams> comandos
-    //     while (i < tam){
-    //         indice_comando = comandos[i].verifica(comando);
-    //         // Se achou, tenho que sair e não cagar na variável
-    //         if (indice_comando == 0 || indice_comando == 1)
-    //             return i; // RETORNO O INDICE DA LISTA DESSA CLASSE, E NÃO O INDÍCE 0 OU 1 DA CLASSE COMANDOPARAMS
-    //         i++;
-    //     }
-    // }
-
-    // return -1;
 }

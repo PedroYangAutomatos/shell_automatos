@@ -11,22 +11,22 @@
 %%
 [\t]    ;
 "-"     { yylval.cval = strdup(yytext); return INICIO_PARAMS_LINUX; }
-ls      { yylval.cval = strdup(yytext); return LS; }
+^ls      { yylval.cval = strdup(yytext); return LS; }
 l     { yylval.cval = strdup(yytext); return LS_LISTA; }
 a     { yylval.cval = strdup(yytext); return LS_OCULTOS; }
 s     { yylval.cval = strdup(yytext); return LS_DIR_TAMANHO; }
 
-"dir"   { yylval.cval = strdup(yytext); return DIR; }
+^"dir"   { yylval.cval = strdup(yytext); return DIR; }
 "/w"    { yylval.cval = strdup(yytext); return DIR_LISTA; }
 "h"     { yylval.cval = strdup(yytext); return DIR_OCULTOS; }
 "/a"    { yylval.cval = strdup(yytext); return DIR_INI_ATTR; }
 "/o"    { yylval.cval = strdup(yytext); return DIR_INI_ORD; }
-[\n]    { yylval.cval = strdup(yytext); return FIM; }
+[\n]    return FIM; //{ yylval.cval = strdup(yytext); return FIM; }
 
-"/"    { yylval.cval = strdup(yytext); return BARRA; }
+^"cd"    { yylval.cval = strdup(yytext); return MUDA_DIR; }
+"/"[a-zA-Z]+ { yylval.cval = strdup(yytext); return ID_DIRETORIOS; }
 
-cd    { yylval.cval = strdup(yytext); return MUDA_DIR; }
-[a-zA-Z0-9] { yylval.cval = strdup(yytext); return ID; }
+^"pwd"   { yylval.cval = strdup(yytext); return LOCAL_ATUAL; }
 
 .       ;
 %%

@@ -15,28 +15,24 @@
     std::string params_final = "";
     std::string comando_input = "";
     std::string params_input = "";
-
-    std::string temp_param = "";
     
-    // Declaraao de escopo
+    // Declaração de escopo
     extern "C" int yylex();
     extern "C" int yyparse();
     extern "C" char *yytext;
 
     // A variavel VAL_SYS_C vai ser usada nos indices de tudo
-    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-        static const int VAL_SYS_C = 1; // Windows
-    #else
-        static const int VAL_SYS_C = 0; // Linux mestre-corrida
-    #endif
+    // #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+    //     static const int VAL_SYS_C = 1; // Windows
+    // #else
+    //     static const int VAL_SYS_C = 0; // Linux mestre-corrida
+    // #endif
     
     void yyerror(const char *s);
     void limpa_comando();
     void guarda_comando(const char *s);
     void guarda_parametro(const char *s);
-    void guarda_comando_inicial(const char *s);
-    void teste();
-    void ttt(const char *s);
+    void popular_comandos_equivalentes();
 %}
 
 %union{
@@ -56,8 +52,8 @@
 %token <cval> DIR_INI_ATTR;
 %token <cval> DIR_INI_ORD;
 %token <cval> MUDA_DIR;
-%token <cval> ID;
-%token <cval> BARRA;
+%token <cval> ID_DIRETORIOS;
+%token <cval> LOCAL_ATUAL;
 
 %token FIM;
 %%
@@ -65,6 +61,8 @@
 input:
     ls_fim
     | dir_fim
+    | muda_dir_fim
+    | local_atual_fim
 
 ls_fim:
     ls
@@ -104,32 +102,40 @@ dir_ord_params:
     | dir_ord_param
 dir_ord_param:
     LS_DIR_TAMANHO { guarda_parametro($1); }
+
+muda_dir_fim:
+    muda_dir
+    | muda_dir FIM
+muda_dir:
+    MUDA_DIR { guarda_comando($1); }
+    | MUDA_DIR {guarda_comando($1); } diretorios
+diretorios:
+    ID_DIRETORIOS { guarda_parametro($1); }
+    | ID_DIRETORIOS { guarda_parametro($1); } diretorios
+
+local_atual_fim:
+    LOCAL_ATUAL { guarda_comando($1); } FIM
 %%
 
 int main(int, char**) {
-    std::vector<std::string> vtmp_l(3);
-    std::vector<std::string> vtmp_w(5);
-    vtmp_l[0] = "l";
-    vtmp_l[1] = "a";
-    vtmp_l[2] = "s";
-    vtmp_w[0] = "/w";
-    vtmp_w[1] = "h";
-    vtmp_w[2] = "s";
-    vtmp_w[3] = "/a";
-    vtmp_w[4] = "/o";
-    cmds_aceitos.adicionar_comando("ls", "dir", vtmp_l, vtmp_w);
-    cmds_aceitos.adicionar_comando("cd", "cd", vtmp_l, vtmp_w);
+    popular_comandos_equivalentes();
     do{
         limpa_comando();
         yyparse();
-        // redireciona_comando();
-        // cout << "CMD: " << comando_final << "; PARAMS: " << params_final << endl;
         comando_param_final.append(comando_final);
+        // as vezes eu tenho que por condições para esse código abaixo 
         comando_param_final.append(" ");
         comando_param_final.append(params_final);
-        cout << "cmd_param final=" << comando_param_final << endl;
-        cout << "cmd=" << comando_final << " param=" << params_final << endl;
+        // checar outros eventos aqui, como por exemplo o cd sem params
+        system(comando_param_final.c_str());
+        cout << "COMANDO=" << comando_param_final << endl;
     } while(1);
+}
+
+void popular_comandos_equivalentes(){
+    cmds_aceitos.adicionar_comando("ls", "dir");
+    cmds_aceitos.adicionar_comando("cd", "cd");
+    cmds_aceitos.adicionar_comando("pwd", "cd");
 }
 
 // Função para limpar os comandos gravados da última entrada
@@ -142,25 +148,19 @@ void limpa_comando(){
     params_input = "";
 }
 
-void guarda_comando_inicial(const char *s){
-    comando_param_inicial = s;
-}
-
 void guarda_comando(const char *s){
     comando_input = s;
     comando_final = cmds_aceitos.comando_equival_str(s);
-    cout << "CMDACTS: " << comando_final << endl;
 }
 
 void guarda_parametro(const char *s){
-    cout << "entrei com=" << s << endl;
     std::string params_temp = s;
 
     // É DIFERENTE DO SISTEMA, TEM QUE TRATAR
-    // if (cmds_aceitos.comando_equival_str(comando_input).compare(comando_input) != 0){
+    if (cmds_aceitos.comando_equival_str(comando_input).compare(comando_input) != 0){
 
     //     // LS E DIR
-    //     if (comando_input.compare("ls") == 0 || comando_input.compare("dir") == 0){
+        if (comando_input.compare("ls") == 0 || comando_input.compare("dir") == 0){
             // LS
             if (comando_input.compare("ls") == 0){
                 if (params_temp.compare("s") == 0){
@@ -189,30 +189,23 @@ void guarda_parametro(const char *s){
                     params_final.append("s");
                 }
             }
-        // } // LS E DIR
+        } // LS E DIR
 
         // CD
         if (comando_input.compare("cd") == 0){
-
+            cout << "entrei cddddddddddddddd" << endl;
+            // A regra do CD não é aqui. Fica a mesma coias nos dois
+            params_final.append(s);
         } // CD
 
 
-    // }
+    } // SISTEMA
 
     // SE FOR IGUAL AO DO SISTEMA, ACHO QUE NÃO PRECISA TRATAR.
-//     else{
-//         cout << "ELSEEEE" << endl;
-//         params_final.append(s);
-//     }
+    else{
+        params_final.append(s);
+    }
 //     // params_final.append(cmds_aceitos.param_equival_str(s, comando_input));
-}
-
-void teste(){
-    cout << "OIOITESTEOIOI" << endl;
-}
-
-void ttt(const char *s){
-    cout << "SSSSS=" << s << endl;
 }
 
 void yyerror(const char *s) {
