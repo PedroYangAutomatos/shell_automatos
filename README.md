@@ -7,8 +7,4 @@ Se for dado um comando do Windows em um Linux, ele usará o equivalente. E vice-
 
 Por exemplo: usar dir no Linux resultará no ls.
 
-Comandos implementados:
-ls e dir;
-cd e cd;
-pwd e cd;
-clear e cls.
+Comandos implementados: ls, dir, cd, pwd, clear, cls.
